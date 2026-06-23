@@ -81,7 +81,7 @@ jobs:
           ${{ secrets.DOCKER_USERNAME }}/devops-lab:latest
           ${{ secrets.DOCKER_USERNAME }}/devops-lab:${{ github.sha }}
 
-    deploy:
+  deploy:
     name: Deploy su Kubernetes
     runs-on: self-hosted
     needs: docker
