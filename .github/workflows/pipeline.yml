@@ -81,12 +81,15 @@ jobs:
           ${{ secrets.DOCKER_USERNAME }}/devops-lab:latest
           ${{ secrets.DOCKER_USERNAME }}/devops-lab:${{ github.sha }}
 
-  deploy:
+    deploy:
     name: Deploy su Kubernetes
     runs-on: self-hosted
     needs: docker
 
     steps:
+    - name: Checkout codice
+      uses: actions/checkout@v3
+
     - name: Verifica cluster K8s
       run: kubectl get nodes
 
