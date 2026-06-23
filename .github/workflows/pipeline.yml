@@ -10,6 +10,19 @@ permissions:
   contents: read
   packages: write
 
+Perfetto. Ora aggiorna il pipeline.yml — aggiungi il job di deploy K8s che gira sul tuo runner locale:
+yamlname: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  packages: write
+
 jobs:
 
   build-and-test:
@@ -80,3 +93,23 @@ jobs:
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/devops-lab:latest
           ${{ secrets.DOCKER_USERNAME }}/devops-lab:${{ github.sha }}
+
+  deploy:
+    name: Deploy su Kubernetes
+    runs-on: self-hosted
+    needs: docker
+
+    steps:
+    - name: Verifica cluster K8s
+      run: kubectl get nodes
+
+    - name: Deploy applicazione
+      run: |
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
+
+    - name: Attendi che il deploy sia completato
+      run: kubectl rollout status deployment/spring-app --timeout=120s
+
+    - name: Verifica pod in esecuzione
+      run: kubectl get pods
