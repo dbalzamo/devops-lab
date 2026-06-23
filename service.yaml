@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-app-service
+spec:
+  selector:
+    app: spring-app         # collega il service ai pod con questa label
+  ports:
+  - protocol: TCP
+    port: 80               # porta esposta dal Service
+    targetPort: 8080       # porta del container
+  type: ClusterIP           # default: raggiungibile solo dentro il cluster
