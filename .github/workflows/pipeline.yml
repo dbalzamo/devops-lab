@@ -10,19 +10,6 @@ permissions:
   contents: read
   packages: write
 
-Perfetto. Ora aggiorna il pipeline.yml — aggiungi il job di deploy K8s che gira sul tuo runner locale:
-yamlname: CI/CD Pipeline
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-permissions:
-  contents: read
-  packages: write
-
 jobs:
 
   build-and-test:
